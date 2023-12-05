@@ -1,0 +1,156 @@
+<template>
+  <div class="clock">
+    <div id="clock-hours" class="hand hours"/>
+    <div id="clock-minutes" class="hand minutes"/>
+    <div id="clock-seconds" class="hand seconds"/>
+    <div class="point"/>
+    <div class="marker">
+      <span class="marker__1"/>
+      <span class="marker__2"/>
+      <span class="marker__3"/>
+      <span class="marker__4"/>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'FormClock',
+  data() {
+    return {
+      timer: 0
+    }
+  },
+  mounted() {
+    this.transformClock()
+    this.timer = setInterval(this.transformClock, 1000)
+  },
+  methods: {
+    transformClock() {
+      const date = new Date()
+      const hoursDom = document.getElementById('clock-hours')
+      const minutesDom = document.getElementById('clock-minutes')
+      const secondsDom = document.getElementById('clock-seconds')
+      let hours = date.getHours()
+      const minutes = date.getMinutes()
+      const seconds = date.getSeconds()
+      hours += minutes / 60 + seconds / 3600
+      if (hoursDom && minutesDom && secondsDom) {
+        hoursDom.style.transform = `rotate(${hours * 30}deg)`
+        minutesDom.style.transform = `rotate(${minutes * 6}deg)`
+        secondsDom.style.transform = `rotate(${seconds * 6}deg)`
+      } else {
+        clearInterval(this.timer)
+      }
+    }
+  }
+}
+</script>
+
+<style scoped>
+/* 时钟样式 */
+.clock {
+  grid-column: 2/3;
+  grid-row: 1/3;
+  width: 12rem;
+  height: 12rem;
+  justify-self: center;
+  box-shadow: 0.3rem 0.3rem 0.6rem var(--greyLight-2), -0.2rem -0.2rem 0.5rem var(--white);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.clock .hand {
+  position: absolute;
+  transform-origin: bottom;
+  bottom: 6rem;
+  border-radius: 0.2rem;
+  z-index: 200;
+}
+
+.clock .hours {
+  width: 0.4rem;
+  height: 3.2rem;
+  background: var(--greyLight-3);
+}
+
+.clock .minutes {
+  width: 0.4rem;
+  height: 4.6rem;
+  background: var(--greyDark);
+}
+
+.clock .seconds {
+  width: 0.2rem;
+  height: 5.2rem;
+  background: var(--primary);
+}
+
+.clock .point {
+  position: absolute;
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50%;
+  background: var(--primary);
+  z-index: 300;
+}
+
+.clock .marker {
+  width: 95%;
+  height: 95%;
+  border-radius: 50%;
+  position: relative;
+  box-shadow: inset 0.2rem 0.2rem 0.5rem var(--greyLight-2), inset -0.2rem -0.2rem 0.5rem var(--white);
+}
+
+.clock .marker::after {
+  content: "";
+  width: 60%;
+  height: 60%;
+  position: absolute;
+  box-shadow: inset 1px 1px 1px var(--greyLight-2), inset -1px -1px 1px var(--white);
+  border-radius: 50%;
+  top: 20%;
+  left: 20%;
+  filter: blur(1px);
+}
+
+.clock .marker__1, .clock .marker__2, .clock .marker__3, .clock .marker__4 {
+  position: absolute;
+  border-radius: 0.1rem;
+  box-shadow: inset 1px 1px 1px var(--greyLight-2), inset -1px -1px 1px var(--white);
+}
+
+.clock .marker__1, .clock .marker__2 {
+  width: 0.2rem;
+  height: 0.6rem;
+  left: 5.6rem;
+}
+
+.clock .marker__3, .clock .marker__4 {
+  width: 0.6rem;
+  height: 0.2rem;
+  top: 5.6rem;
+}
+
+.clock .marker__1 {
+  top: 2%;
+}
+
+.clock .marker__2 {
+  top: 98%;
+  transform: translateY(-0.6rem);
+}
+
+.clock .marker__3 {
+  left: 2%;
+}
+
+.clock .marker__4 {
+  left: 98%;
+  transform: translateX(-0.6rem);
+}
+</style>
