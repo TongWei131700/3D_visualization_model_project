@@ -379,7 +379,7 @@ class ShareModels {
 function loadSimapleModel(handeler) {
   const that = this
   const loader = new FBXLoader()
-  loader.load('/models/xingqing1.fbx', obj => {
+  loader.load('/models/testModel.fbx', obj => {
     if (!that.scene.getObjectByName('mainModel')) {
       handeler.$store.state.models.ifShowLoad = true// 使楼层加载状态处于选择状态
       that.scene.add(obj)
